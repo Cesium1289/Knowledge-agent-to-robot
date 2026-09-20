@@ -43,6 +43,8 @@ static const std::pair<int,int> EXIT_LOCATION;
     void grabbed();
     void climbed();
     void shot();
+    std::string get_agent_direction()const;
+    bool get_agent_is_alive()const;
 
     
 private:    

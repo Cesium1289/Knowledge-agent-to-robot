@@ -9,4 +9,4 @@ add_executable(wumpus_world_demo src/main.cpp)
 target_link_libraries(wumpus_world_demo PRIVATE agent_lib)
 
 # Tests wired up once a framework (e.g. Catch2 or GoogleTest) is added.
-# add_subdirectory(tests)
+add_subdirectory(tests)

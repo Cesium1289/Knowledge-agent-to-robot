@@ -10,7 +10,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 add_compile_options(-Wall -Wextra)
-
+include(CTest)
 # Stage 1
 add_subdirectory(agent)
 

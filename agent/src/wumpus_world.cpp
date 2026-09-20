@@ -57,4 +57,12 @@ bool WumpusWorld::agent_bumped_wall()
 {
     return false;
 }
+std::string WumpusWorld::get_agent_direction() const
+{
+    return agent_direction;
+}
+bool WumpusWorld::get_agent_is_alive() const
+{
+    return agent_alive;
+}
 } // namespace wumpus
