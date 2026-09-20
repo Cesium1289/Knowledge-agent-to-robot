@@ -15,29 +15,46 @@ WumpusWorld::WumpusWorld(std::pair<int, int> agent_Location, std::string agent_d
     this->pit_locations = pit_locations;
 }
 
-    
-
-
-// TODO: implement WumpusWorld
-   char** percept(std::pair<int,int> location) {
-         
-        /*The current five-element percept in the `location`. Returns a tuple in the
+WumpusWorld::PerceptResult WumpusWorld::percept()
+{
+    PerceptResult percept;
+    /*The current five-element percept in the `location`. Returns a tuple in the
         form of ('Stench', 'Breeze', 'Glitter', 'Bump', 'Scream'). Any of the elements
         within the returned percept tuple can be None.*/
      
-        /*
-        if (!location.first || !location.second)
-        return "a";
-        
-        bool stench = "Stench" if self.adjacent(location,self.wumpus_location) or location == self.wumpus_location else None
-        bool breeze = "Breeze" if any(self.adjacent(location, p) for p in self.pit_locations) else None
-        bool glitter = "Glitter" if location == self.gold_location else None
-        bool bump = "Bump" if self.agent_bumped_wall() else None
-        bool scream = "Scream" if self.wumpus_alive == False else None
-        return (stench,breeze,glitter,bump,scream)
-        */
-    }
+    
+        //check if agent is on wumpus or in the vicinity
+        percept.stench = adjacent(agent_location,wumpus_location) || (agent_location == wumpus_location);
+       
+        //check if agent is ontop of the gold
+        percept.glitter = gold_location == agent_location;
+       
+        //check if agent is against a wall
+        percept.bump = agent_bumped_wall();
 
-   
+        //check if wumpus is dead
+        percept.scream = !wumpus_alive;
 
+        //check if near a pit
+        percept.breeze = false;
+        for(size_t i = 0; i < pit_locations.size();i++)
+        {
+            if(adjacent(agent_location,pit_locations.at(i)))
+            {
+                percept.breeze = true;
+                break;
+            }
+        }
+ 
+    return percept;
+}
+bool WumpusWorld::adjacent(std::pair<int,int> location, std::pair<int, int> target)
+{  
+  //  Is `location` immediately north, south, east or west of `target`?
+    return (abs(location.first - target.first) + abs(location.second - target.second) == 1);
+}
+bool WumpusWorld::agent_bumped_wall()
+{
+    return false;
+}
 } // namespace wumpus

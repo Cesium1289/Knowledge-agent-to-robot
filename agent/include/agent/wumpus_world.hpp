@@ -2,6 +2,7 @@
 #include <utility> 
 #include <vector>
 #include <string>
+#include <cstdlib>
 // WumpusWorld
 // Simulated physical environment: the "real" 4x4 cave, its physics, and the
 // percepts it emits. This is NOT the agent's belief state — it is reality.
@@ -44,9 +45,7 @@ static const std::pair<int,int> EXIT_LOCATION;
     void shot();
 
     
-private:
-   
-
+private:    
     std::pair<int,int> agent_location;
     std::string agent_direction;
     bool agent_alive;
@@ -55,7 +54,7 @@ private:
     std::pair<int,int> gold_location;
     std::vector<std::pair<int,int>> pit_locations;
 
-    bool adjacent(std::pair<int,int> target);
+    bool adjacent(std::pair<int,int> current, std::pair<int,int> target);
     bool agent_can_move_east();
     bool agent_can_move_west();
     bool agent_can_move_north();
