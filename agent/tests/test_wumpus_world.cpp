@@ -175,6 +175,16 @@ TEST_CASE("Percept no breeze", "[WumpusWorld]") {
    REQUIRE(result.breeze == false);
 }
 
+TEST_CASE("Percept breeze from multiple adjacent pits", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(1, 1),
+        {std::make_pair(2, 3), std::make_pair(2, 1)});  // two pits, both adjacent
+    auto result = world.percept();
+    REQUIRE(result.breeze == true);
+}
+
 TEST_CASE("Percept glitter", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
     "East", true, true,
@@ -193,4 +203,111 @@ TEST_CASE("Percept no glitter", "[WumpusWorld]") {
    {std::make_pair(1, 2)});
    auto result = world.percept();
    REQUIRE(result.glitter == false);
+}
+
+/*
+* agent bumped wall tests
+*/
+TEST_CASE("agenet facing North in center and not bump into wall", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
+    "North", true, true,
+    std::make_pair(1, 3), 
+    std::make_pair(3, 2),
+   {std::make_pair(1, 2)});
+    auto percept = world.percept();
+    REQUIRE(percept.bump == false);
+}
+
+TEST_CASE("agenet facing East in center and not bump into wall", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
+    "East", true, true,
+    std::make_pair(1, 3), 
+    std::make_pair(3, 2),
+   {std::make_pair(1, 2)});
+    auto percept = world.percept();
+    REQUIRE(percept.bump == false);
+}
+
+TEST_CASE("agenet facing South in center and not bump into wall", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
+    "South", true, true,
+    std::make_pair(1, 3), 
+    std::make_pair(3, 2),
+   {std::make_pair(1, 2)});
+    auto percept = world.percept();
+    REQUIRE(percept.bump == false);
+}
+
+TEST_CASE("agenet facing West in center and not bump into wall", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
+    "West", true, true,
+    std::make_pair(1, 3), 
+    std::make_pair(3, 2),
+   {std::make_pair(1, 2)});
+    auto percept = world.percept();
+    REQUIRE(percept.bump == false);
+}
+
+TEST_CASE("Agent bumps wall at (1,4) facing West or North", "[WumpusWorld]") {
+    auto world_west = wumpus::WumpusWorld(std::make_pair(1, 4),
+        "West", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    REQUIRE(world_west.percept().bump == true);
+
+    auto world_north = wumpus::WumpusWorld(std::make_pair(1, 4),
+        "North", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    REQUIRE(world_north.percept().bump == true);
+}
+
+TEST_CASE("Agent bumps wall at (4,1) facing East or South", "[WumpusWorld]") {
+    auto world_east = wumpus::WumpusWorld(std::make_pair(4, 1),
+        "East", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    REQUIRE(world_east.percept().bump == true);
+
+    auto world_south = wumpus::WumpusWorld(std::make_pair(4, 1),
+        "South", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    REQUIRE(world_south.percept().bump == true);
+}
+
+TEST_CASE("Agent bumps wall at (4,4) facing East or North", "[WumpusWorld]") {
+    auto world_east = wumpus::WumpusWorld(std::make_pair(4, 4),
+        "East", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    REQUIRE(world_east.percept().bump == true);
+
+    auto world_north = wumpus::WumpusWorld(std::make_pair(4, 4),
+        "North", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    REQUIRE(world_north.percept().bump == true);
+}
+
+TEST_CASE("Agent bumps wall at (1,1) facing West or South", "[WumpusWorld]") {
+    auto world_west = wumpus::WumpusWorld(std::make_pair(1, 1),
+        "West", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    REQUIRE(world_west.percept().bump == true);
+
+    auto world_south = wumpus::WumpusWorld(std::make_pair(1, 1),
+        "South", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    REQUIRE(world_south.percept().bump == true);
 }

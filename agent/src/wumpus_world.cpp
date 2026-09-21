@@ -21,7 +21,6 @@ WumpusWorld::PerceptResult WumpusWorld::percept()const
     /*The current five-element percept in the `location`. Returns a tuple in the
         form of ('Stench', 'Breeze', 'Glitter', 'Bump', 'Scream'). Any of the elements
         within the returned percept tuple can be None.*/
-     
     
         //check if agent is on wumpus or in the vicinity
         percept.stench = adjacent(agent_location,wumpus_location) || (agent_location == wumpus_location);
@@ -55,7 +54,6 @@ bool WumpusWorld::adjacent(std::pair<int,int> location, std::pair<int, int> targ
 }
 bool WumpusWorld::agent_can_move_east()const
 {
-    
     return agent_location.first < 4;
 }
 bool WumpusWorld::agent_can_move_west()const
@@ -75,19 +73,19 @@ bool WumpusWorld::agent_bumped_wall()const
     //Did the agent bump into a wall? (Or, is the agent facing a wall?)
 
         //check west
-        if(agent_location.first == 1 && agent_direction == "West")
+        if(!agent_can_move_west() && agent_direction == "West")
             return true;
         
         //check east
-        if(agent_location.first == 4 && agent_direction == "East")
+        if(!agent_can_move_east() && agent_direction == "East")
             return true;
         
         //check north
-        if(agent_location.second == 4 && agent_direction == "North")
+        if(!agent_can_move_north() && agent_direction == "North")
             return true;
         
         //check south
-        if(agent_location.second == 1 and agent_direction == "South")
+        if(!agent_can_move_south() && agent_direction == "South")
             return true;
         
         return false;
