@@ -26,7 +26,7 @@ WumpusWorld::PerceptResult WumpusWorld::percept()const
         percept.stench = adjacent(agent_location,wumpus_location) || (agent_location == wumpus_location);
        
         //check if agent is ontop of the gold
-        percept.glitter = gold_location == agent_location;
+        percept.glitter = (gold_location == agent_location) && !has_gold;
        
         //check if agent is against a wall
         percept.bump = agent_bumped_wall();
@@ -87,6 +87,12 @@ void WumpusWorld::move_forward()
         agent_alive = false;
     
     
+}
+
+void WumpusWorld::grabbed()
+{
+    if(!has_gold && (agent_location == gold_location))
+        has_gold = true;
 }
 
 bool WumpusWorld::adjacent(std::pair<int, int> location, std::pair<int, int> target) const
@@ -159,5 +165,9 @@ std::string WumpusWorld::get_agent_direction() const
 bool WumpusWorld::get_agent_is_alive() const
 {
     return agent_alive;
+}
+bool WumpusWorld::get_agent_has_gold() const
+{
+    return has_gold;
 }
 } // namespace wumpus

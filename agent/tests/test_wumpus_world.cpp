@@ -478,3 +478,57 @@ TEST_CASE("Moving into a dead wumpus does not kill the agent", "[WumpusWorld]") 
     world.move_forward();
     REQUIRE(world.get_agent_is_alive() == true);
 }
+
+/*
+* grabbed tests
+*/
+TEST_CASE("Grabbed succeeds when standing on gold", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(2, 2),   // gold at agent's location
+        {std::make_pair(1, 1)});
+
+    world.grabbed();
+
+    REQUIRE(world.get_agent_has_gold() == true);
+}
+
+TEST_CASE("Grabbing gold removes glitter from percept", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(2, 2),   // gold at agent's location
+        {std::make_pair(1, 1)});
+
+    REQUIRE(world.percept().glitter == true);  // before grabbing
+
+    world.grabbed();
+
+    REQUIRE(world.percept().glitter == false); // after grabbing
+}
+
+TEST_CASE("Grabbed does nothing when not standing on gold", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(3, 3),   // gold elsewhere
+        {std::make_pair(1, 1)});
+
+    world.grabbed();
+
+    REQUIRE(world.get_agent_has_gold() == false);
+}
+
+TEST_CASE("Grabbing twice is harmless", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(2, 2),   // gold at agent's location
+        {std::make_pair(1, 1)});
+
+    world.grabbed();
+    world.grabbed();   // second call should be a harmless no-op
+
+    REQUIRE(world.get_agent_has_gold() == true);
+}
