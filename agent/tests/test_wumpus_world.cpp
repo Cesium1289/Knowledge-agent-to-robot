@@ -311,3 +311,86 @@ TEST_CASE("Agent bumps wall at (1,1) facing West or South", "[WumpusWorld]") {
         {std::make_pair(1, 2)});
     REQUIRE(world_south.percept().bump == true);
 }
+
+/*
+* turned_left / turned_right tests
+*/
+TEST_CASE("Turning left from North faces West", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "North", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    world.turned_left();
+    REQUIRE(world.get_agent_direction() == "West");
+}
+
+TEST_CASE("Turning left from West faces South", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "West", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    world.turned_left();
+    REQUIRE(world.get_agent_direction() == "South");
+}
+
+TEST_CASE("Turning left from South faces East", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "South", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    world.turned_left();
+    REQUIRE(world.get_agent_direction() == "East");
+}
+
+TEST_CASE("Turning left from East faces North", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    world.turned_left();
+    REQUIRE(world.get_agent_direction() == "North");
+}
+
+TEST_CASE("Turning right from North faces East", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "North", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    world.turned_right();
+    REQUIRE(world.get_agent_direction() == "East");
+}
+
+TEST_CASE("Turning right from East faces South", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    world.turned_right();
+    REQUIRE(world.get_agent_direction() == "South");
+}
+
+TEST_CASE("Turning right from South faces West", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "South", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    world.turned_right();
+    REQUIRE(world.get_agent_direction() == "West");
+}
+
+TEST_CASE("Turning right from West faces North", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "West", true, true,
+        std::make_pair(1, 3),
+        std::make_pair(3, 2),
+        {std::make_pair(1, 2)});
+    world.turned_right();
+    REQUIRE(world.get_agent_direction() == "North");
+}

@@ -47,7 +47,22 @@ WumpusWorld::PerceptResult WumpusWorld::percept()const
  
     return percept;
 }
-bool WumpusWorld::adjacent(std::pair<int,int> location, std::pair<int, int> target)const
+void WumpusWorld::turned_left()
+{
+    if (agent_direction == "North") agent_direction = "West";
+    else if (agent_direction == "West") agent_direction = "South";
+    else if (agent_direction == "South") agent_direction = "East";
+    else if (agent_direction == "East") agent_direction = "North";
+}
+void WumpusWorld::turned_right()
+{
+    if (agent_direction == "North") agent_direction = "East";
+    else if (agent_direction == "West") agent_direction = "North";
+    else if (agent_direction == "South") agent_direction = "West";
+    else if (agent_direction == "East") agent_direction = "South";
+}
+
+bool WumpusWorld::adjacent(std::pair<int, int> location, std::pair<int, int> target) const
 {  
   //  Is `location` immediately north, south, east or west of `target`?
     return (abs(location.first - target.first) + abs(location.second - target.second) == 1);
