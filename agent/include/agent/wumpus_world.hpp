@@ -35,7 +35,7 @@ static const std::pair<int,int> EXIT_LOCATION;
         std::pair<int,int> gold_location = std::make_pair(2,2), 
         std::vector<std::pair<int,int>> pit_locations={std::make_pair(1,2), std::make_pair(2,3), std::make_pair(4,4)});
     
-    PerceptResult percept();
+    PerceptResult percept()const;
 
     void turned_left();
     void turned_right();
@@ -56,16 +56,16 @@ private:
     std::pair<int,int> gold_location;
     std::vector<std::pair<int,int>> pit_locations;
 
-    bool adjacent(std::pair<int,int> current, std::pair<int,int> target);
-    bool agent_can_move_east();
-    bool agent_can_move_west();
-    bool agent_can_move_north();
-    bool agent_can_move_south();
-    bool agent_bumped_wall();
-    bool wumpus_east_of_agent();
-    bool wumpus_west_of_agent();
-    bool wumpus_north_of_agent();
-    bool wumpus_south_of_agent();
+    bool adjacent(std::pair<int,int> current, std::pair<int,int> target)const;
+    bool agent_can_move_east()const;
+    bool agent_can_move_west()const;
+    bool agent_can_move_north()const;
+    bool agent_can_move_south()const;
+    bool agent_bumped_wall()const;
+    bool wumpus_east_of_agent()const;
+    bool wumpus_west_of_agent()const;
+    bool wumpus_north_of_agent()const;
+    bool wumpus_south_of_agent()const;
 
 
 };

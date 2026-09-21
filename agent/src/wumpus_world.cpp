@@ -15,7 +15,7 @@ WumpusWorld::WumpusWorld(std::pair<int, int> agent_Location, std::string agent_d
     this->pit_locations = pit_locations;
 }
 
-WumpusWorld::PerceptResult WumpusWorld::percept()
+WumpusWorld::PerceptResult WumpusWorld::percept()const
 {
     PerceptResult percept;
     /*The current five-element percept in the `location`. Returns a tuple in the
@@ -48,14 +48,69 @@ WumpusWorld::PerceptResult WumpusWorld::percept()
  
     return percept;
 }
-bool WumpusWorld::adjacent(std::pair<int,int> location, std::pair<int, int> target)
+bool WumpusWorld::adjacent(std::pair<int,int> location, std::pair<int, int> target)const
 {  
   //  Is `location` immediately north, south, east or west of `target`?
     return (abs(location.first - target.first) + abs(location.second - target.second) == 1);
 }
-bool WumpusWorld::agent_bumped_wall()
+bool WumpusWorld::agent_can_move_east()const
 {
-    return false;
+    
+    return agent_location.first < 4;
+}
+bool WumpusWorld::agent_can_move_west()const
+{
+    return agent_location.first > 1;
+}
+bool WumpusWorld::agent_can_move_north()const
+{
+    return agent_location.second < 4;
+}
+bool WumpusWorld::agent_can_move_south()const
+{
+   return agent_location.second > 1;
+}
+bool WumpusWorld::agent_bumped_wall()const
+{ 
+    //Did the agent bump into a wall? (Or, is the agent facing a wall?)
+
+        //check west
+        if(agent_location.first == 1 && agent_direction == "West")
+            return true;
+        
+        //check east
+        if(agent_location.first == 4 && agent_direction == "East")
+            return true;
+        
+        //check north
+        if(agent_location.second == 4 && agent_direction == "North")
+            return true;
+        
+        //check south
+        if(agent_location.second == 1 and agent_direction == "South")
+            return true;
+        
+        return false;
+}
+bool WumpusWorld::wumpus_east_of_agent()const
+{
+    // Is the wumpus somewhere to the east of the agent?
+    return agent_location.first < wumpus_location.first && agent_location.second == wumpus_location.second;
+}
+bool WumpusWorld::wumpus_west_of_agent()const
+{
+    //Is the wumpus somewhere to the west of the agent?
+    return agent_location.first > wumpus_location.first && agent_location.second == wumpus_location.second;
+}
+bool WumpusWorld::wumpus_north_of_agent()const
+{
+    //Is the wumpus somewhere to the north of the agent?
+    return agent_location.first == wumpus_location.first && agent_location.second < wumpus_location.second;
+}
+bool WumpusWorld::wumpus_south_of_agent()const
+{
+    //Is the wumpus somewhere to the south of the agent?
+    return agent_location.first == wumpus_location.first && agent_location.second > wumpus_location.second;
 }
 std::string WumpusWorld::get_agent_direction() const
 {
