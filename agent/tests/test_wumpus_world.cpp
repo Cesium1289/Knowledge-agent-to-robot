@@ -313,7 +313,7 @@ TEST_CASE("Agent bumps wall at (1,1) facing West or South", "[WumpusWorld]") {
 }
 
 /*
-* turned_left / turned_right tests
+ * turned_left / turned_right tests
 */
 TEST_CASE("Turning left from North faces West", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
@@ -393,4 +393,88 @@ TEST_CASE("Turning right from West faces North", "[WumpusWorld]") {
         {std::make_pair(1, 2)});
     world.turned_right();
     REQUIRE(world.get_agent_direction() == "North");
+}
+
+/*
+* move_forward tests
+*/
+TEST_CASE("Move forward East succeeds", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(1, 4),
+        std::make_pair(3, 2),   // gold at destination
+        {std::make_pair(1, 1)});
+    world.move_forward();
+    REQUIRE(world.percept().glitter == true);
+}
+
+TEST_CASE("Move forward West succeeds", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(3, 2),
+        "West", true, true,
+        std::make_pair(1, 4),
+        std::make_pair(2, 2),   // gold at destination
+        {std::make_pair(1, 1)});
+    world.move_forward();
+    REQUIRE(world.percept().glitter == true);
+}
+
+TEST_CASE("Move forward North succeeds", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "North", true, true,
+        std::make_pair(1, 4),
+        std::make_pair(2, 3),   // gold at destination
+        {std::make_pair(1, 1)});
+    world.move_forward();
+    REQUIRE(world.percept().glitter == true);
+}
+
+TEST_CASE("Move forward South succeeds", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 3),
+        "South", true, true,
+        std::make_pair(1, 4),
+        std::make_pair(2, 2),   // gold at destination
+        {std::make_pair(1, 1)});
+    world.move_forward();
+    REQUIRE(world.percept().glitter == true);
+}
+
+TEST_CASE("Move forward blocked by wall does not move agent", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(4, 2),
+        "East", true, true,
+        std::make_pair(1, 4),
+        std::make_pair(4, 2),   // gold at agent's own square
+        {std::make_pair(1, 1)});
+    world.move_forward();
+    // agent never left, so it's still standing on the gold
+    REQUIRE(world.percept().glitter == true);
+}
+
+TEST_CASE("Moving into a pit kills the agent", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(1, 4),
+        std::make_pair(1, 1),
+        {std::make_pair(3, 2)});   // pit at destination
+    world.move_forward();
+    REQUIRE(world.get_agent_is_alive() == false);
+}
+
+TEST_CASE("Moving into a living wumpus kills the agent", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(3, 2),   // wumpus at destination
+        std::make_pair(1, 1),
+        {std::make_pair(4, 4)});
+    world.move_forward();
+    REQUIRE(world.get_agent_is_alive() == false);
+}
+
+TEST_CASE("Moving into a dead wumpus does not kill the agent", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, false,   // wumpus_alive = false
+        std::make_pair(3, 2),  // wumpus at destination
+        std::make_pair(1, 1),
+        {std::make_pair(4, 4)});
+    world.move_forward();
+    REQUIRE(world.get_agent_is_alive() == true);
 }

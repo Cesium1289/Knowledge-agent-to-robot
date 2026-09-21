@@ -62,6 +62,33 @@ void WumpusWorld::turned_right()
     else if (agent_direction == "East") agent_direction = "South";
 }
 
+void WumpusWorld::move_forward()
+{
+    // check if and where the agent should move
+    if (agent_direction == "North" && agent_can_move_north())
+        agent_location.second++;
+    else if (agent_direction == "South" && agent_can_move_south())
+        agent_location.second--;
+    else if (agent_direction == "East" && agent_can_move_east())
+        agent_location.first++;
+    else if (agent_direction == "West" && agent_can_move_west())
+        agent_location.first--;
+
+    // check if agent is in a pit
+    for (const auto& pit : pit_locations) {
+        if (agent_location == pit) {
+            agent_alive = false;
+            break;
+        }
+    }
+
+    // check if agent is with a living wumpus
+    if (agent_location == wumpus_location && wumpus_alive) 
+        agent_alive = false;
+    
+    
+}
+
 bool WumpusWorld::adjacent(std::pair<int, int> location, std::pair<int, int> target) const
 {  
   //  Is `location` immediately north, south, east or west of `target`?
