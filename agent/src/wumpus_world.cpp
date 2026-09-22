@@ -95,6 +95,12 @@ void WumpusWorld::grabbed()
         has_gold = true;
 }
 
+void WumpusWorld::climbed()
+{
+    if(agent_location == EXIT_LOCATION)
+        has_climbed_out = true;
+}
+
 bool WumpusWorld::adjacent(std::pair<int, int> location, std::pair<int, int> target) const
 {  
   //  Is `location` immediately north, south, east or west of `target`?
@@ -169,5 +175,9 @@ bool WumpusWorld::get_agent_is_alive() const
 bool WumpusWorld::get_agent_has_gold() const
 {
     return has_gold;
+}
+bool WumpusWorld::get_has_climbed_out() const
+{
+    return has_climbed_out;
 }
 } // namespace wumpus

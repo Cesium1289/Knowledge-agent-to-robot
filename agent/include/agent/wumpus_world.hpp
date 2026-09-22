@@ -46,7 +46,7 @@ static const std::pair<int,int> EXIT_LOCATION;
     std::string get_agent_direction()const;
     bool get_agent_is_alive()const;
     bool get_agent_has_gold()const;
-
+    bool get_has_climbed_out()const;
     
 private:    
     std::pair<int,int> agent_location;
@@ -57,7 +57,7 @@ private:
     std::pair<int,int> gold_location;
     std::vector<std::pair<int,int>> pit_locations;
     bool has_gold = false;
-
+    bool has_climbed_out = false;
     bool adjacent(std::pair<int,int> current, std::pair<int,int> target)const;
     bool agent_can_move_east()const;
     bool agent_can_move_west()const;

@@ -532,3 +532,57 @@ TEST_CASE("Grabbing twice is harmless", "[WumpusWorld]") {
 
     REQUIRE(world.get_agent_has_gold() == true);
 }
+
+/*
+* climbed tests
+*/
+TEST_CASE("Climbing out succeeds at exit location", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(1, 1),   // at the exit
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(2, 2),
+        {std::make_pair(3, 3)});
+
+    world.climbed();
+
+    REQUIRE(world.get_has_climbed_out() == true);
+}
+
+TEST_CASE("Climbing does nothing away from exit location", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),   // not at the exit
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(3, 3),
+        {std::make_pair(1, 4)});
+
+    world.climbed();
+
+    REQUIRE(world.get_has_climbed_out() == false);
+}
+
+TEST_CASE("Agent can climb out with the gold", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(1, 1),   // at the exit
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(1, 1),   // gold at the exit square
+        {std::make_pair(3, 3)});
+
+    world.grabbed();
+    world.climbed();
+
+    REQUIRE(world.get_agent_has_gold() == true);
+    REQUIRE(world.get_has_climbed_out() == true);
+}
+
+TEST_CASE("Agent can climb out without the gold", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(1, 1),   // at the exit
+        "East", true, true,
+        std::make_pair(4, 4),
+        std::make_pair(3, 3),   // gold elsewhere
+        {std::make_pair(2, 2)});
+
+    world.climbed();
+
+    REQUIRE(world.get_agent_has_gold() == false);
+    REQUIRE(world.get_has_climbed_out() == true);
+}
