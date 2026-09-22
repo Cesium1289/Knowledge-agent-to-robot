@@ -586,3 +586,78 @@ TEST_CASE("Agent can climb out without the gold", "[WumpusWorld]") {
     REQUIRE(world.get_agent_has_gold() == false);
     REQUIRE(world.get_has_climbed_out() == true);
 }
+
+/*
+* shot tests
+*/
+TEST_CASE("Shooting north kills wumpus directly north", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "North", true, true,
+        std::make_pair(2, 3),   // wumpus directly north
+        std::make_pair(4, 4),
+        {std::make_pair(1, 1)});
+
+    world.shot();
+
+    REQUIRE(world.percept().scream == true);
+}
+
+TEST_CASE("Shooting south kills wumpus directly south", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "South", true, true,
+        std::make_pair(2, 1),   // wumpus directly south
+        std::make_pair(4, 4),
+        {std::make_pair(1, 4)});
+
+    world.shot();
+
+    REQUIRE(world.percept().scream == true);
+}
+
+TEST_CASE("Shooting east kills wumpus directly east", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "East", true, true,
+        std::make_pair(3, 2),   // wumpus directly east
+        std::make_pair(4, 4),
+        {std::make_pair(1, 1)});
+
+    world.shot();
+
+    REQUIRE(world.percept().scream == true);
+}
+
+TEST_CASE("Shooting west kills wumpus directly west", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "West", true, true,
+        std::make_pair(1, 2),   // wumpus directly west
+        std::make_pair(4, 4),
+        {std::make_pair(1, 4)});
+
+    world.shot();
+
+    REQUIRE(world.percept().scream == true);
+}
+
+TEST_CASE("Shooting the wrong direction misses the wumpus", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
+        "North", true, true,
+        std::make_pair(3, 2),   // wumpus is east, agent faces north
+        std::make_pair(4, 4),
+        {std::make_pair(1, 1)});
+
+    world.shot();
+
+    REQUIRE(world.percept().scream == false);
+}
+
+TEST_CASE("Shooting when wumpus is not in line does not kill it", "[WumpusWorld]") {
+    auto world = wumpus::WumpusWorld(std::make_pair(1, 1),
+        "North", true, true,
+        std::make_pair(3, 3),   // wumpus off-axis entirely
+        std::make_pair(4, 4),
+        {std::make_pair(2, 2)});
+
+    world.shot();
+
+    REQUIRE(world.percept().scream == false);
+}

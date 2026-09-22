@@ -101,6 +101,22 @@ void WumpusWorld::climbed()
         has_climbed_out = true;
 }
 
+void WumpusWorld::shot()
+{
+    //Shoot the arrow. If the arrow strikes the wumpus, then the wumpus should
+    //no longer be alive.
+        
+        //check agent direction and if the wumpus is in the same direction
+        if (agent_direction == "North" && wumpus_north_of_agent())
+            wumpus_alive = false;
+        else if(agent_direction == "South" && wumpus_south_of_agent())
+            wumpus_alive = false;
+        else if(agent_direction == "West" && wumpus_west_of_agent())
+            wumpus_alive = false;
+        else if (agent_direction == "East" && wumpus_east_of_agent())
+            wumpus_alive = false;
+}
+
 bool WumpusWorld::adjacent(std::pair<int, int> location, std::pair<int, int> target) const
 {  
   //  Is `location` immediately north, south, east or west of `target`?
