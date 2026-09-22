@@ -1,4 +1,5 @@
 #pragma once
+#include"wumpus_world.hpp"
 
 // KnowledgeBase
 // The actual reasoning engine: tracks visited squares, derives safety of
@@ -13,7 +14,9 @@ namespace wumpus {
 
 class KnowledgeBase {
 public:
-    // TODO: tell(), ask(), and the internal square-status representation
+    KnowledgeBase();
+    void tell(WumpusWorld world);
+    void ask(WumpusWorld world);
 };
 
 }  // namespace wumpus
