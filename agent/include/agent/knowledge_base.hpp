@@ -4,7 +4,14 @@
 
 namespace wumpus {
 
-using Action = std::function<void()>;
+enum class Action {
+    TURN_LEFT,
+    TURN_RIGHT,
+    MOVE_FORWARD,
+    SHOOT,
+    GRAB,
+    CLIMB
+};
 
 class KnowledgeBase {
 public:

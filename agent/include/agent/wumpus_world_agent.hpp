@@ -5,7 +5,7 @@ namespace wumpus {
 
 class WumpusWorldAgent {
 public:
-    WumpusWorldAgent(KnowledgeBase& kb);
+    WumpusWorldAgent(KnowledgeBase& knowledge_base);
     void turn_left(WumpusWorld& world)const;
     void turn_right(WumpusWorld& world)const; 
     void move_forward(WumpusWorld& world)const;
