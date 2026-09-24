@@ -117,7 +117,7 @@ void WumpusWorld::shot()
             wumpus_alive = false;
 }
 
-bool WumpusWorld::adjacent(std::pair<int, int> location, std::pair<int, int> target) const
+ bool WumpusWorld::adjacent(std::pair<int, int> location, std::pair<int, int> target)
 {  
   //  Is `location` immediately north, south, east or west of `target`?
     return (abs(location.first - target.first) + abs(location.second - target.second) == 1);
