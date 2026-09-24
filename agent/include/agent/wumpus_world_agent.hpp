@@ -15,14 +15,14 @@ public:
     
 
     //TO DO
-    void make_percept_Sentence(WumpusWorld& world);
+    void make_percept_Sentence( WumpusWorld& world)const;
     void make_action_query();
     void make_action_sentence();
-    void action(WumpusWorld& world);
+    Action action(WumpusWorld& world);
 
 private:
     KnowledgeBase& kb;
-    int time = 0;
+    int num_actions = 0;
 };
 
 }//wumpus
