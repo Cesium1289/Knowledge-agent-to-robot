@@ -4,8 +4,6 @@
 using namespace std;
 namespace wumpus {
 
-// TODO: implement the inference engine
-
 KnowledgeBase::KnowledgeBase()
 {
 }
@@ -16,55 +14,35 @@ void KnowledgeBase::tell(const WumpusWorld &world)
 
     visited.insert(believed_location);
     known_percepts[believed_location] = percept;
-    //adjacent squares must be safe
+
+    //adjacent squares must be safe since nothing was perceived
     if(percept.breeze == false && percept.stench == false)
     {
-        //check if we can move east
-        if(believed_location.first < 4)
-            known_safe.insert(std::make_pair(believed_location.first+1, believed_location.second));
-        if(believed_location.first > 1)
-        known_safe.insert(std::make_pair(believed_location.first -1, believed_location.second));
-        if(believed_location.second < 4)
-            known_safe.insert(std::make_pair(believed_location.first, believed_location.second+1));
-        if(believed_location.second > 1)
-            known_safe.insert(std::make_pair(believed_location.first, believed_location.second-1));
+        //loop through the four adjacent squares
+        for(int i = 0; i < 4; i++)
+        {
+            int nx = believed_location.first + DX[i];
+            int ny = believed_location.second + DY[i];
+
+            //check if the adjacent square is within the bounds of the world
+            if (nx >= 1 && nx <= 4 && ny >= 1 && ny <= 4)
+                known_safe.insert(std::make_pair(nx, ny));
+        }
     }
 }
 
 void KnowledgeBase::tell(const Action& action) 
 {
      if (action == Action::TURN_LEFT)
-    {
-        if (believed_direction == "North") 
-            believed_direction = "West";
-        else if (believed_direction == "West") 
-            believed_direction = "South";
-        else if (believed_direction == "South") 
-            believed_direction = "East";
-        else if (believed_direction == "East") 
-                believed_direction = "North";
-    }
+        believed_direction = turn_left(believed_direction);
     else if (action == Action::TURN_RIGHT)
-    {
-        if (believed_direction == "North") 
-            believed_direction = "East";
-        else if (believed_direction == "East") 
-            believed_direction = "South";
-        else if (believed_direction == "South") 
-            believed_direction = "West";
-        else if (believed_direction == "West") 
-            believed_direction = "North";
-    }
+        believed_direction = turn_right(believed_direction);
     else if (action == Action::MOVE_FORWARD)
     {
-        if (believed_direction == "North" && believed_location.second < 4)
-            believed_location.second++;
-        else if (believed_direction == "South" && believed_location.second > 1)
-            believed_location.second--;
-        else if (believed_direction == "East" && believed_location.first < 4)
-            believed_location.first++;
-        else if (believed_direction == "West" && believed_location.first > 1)
-            believed_location.first--;
+        int nx = believed_location.first + DX[believed_direction];
+        int ny = believed_location.second + DY[believed_direction];
+        if (nx >= 1 && nx <= 4 && ny >= 1 && ny <= 4)
+            believed_location = std::make_pair(nx, ny);
     }
 
 }
@@ -117,35 +95,63 @@ Action KnowledgeBase::ask(const WumpusWorld &world)
     return action_toward(WumpusWorld::EXIT_LOCATION);
 }
 
+wumpus::Direction KnowledgeBase::turn_left(const Direction d)const
+{
+    switch(d)
+    {
+        case NORTH: return WEST;
+        case WEST: return SOUTH;
+        case SOUTH: return EAST;
+        case EAST: return NORTH;
+    }
+    return d;
+}
+
+wumpus::Direction KnowledgeBase::turn_right(const Direction d)const
+{
+    switch(d)
+    {
+        case NORTH: return EAST;
+        case EAST: return SOUTH;
+        case SOUTH: return WEST;
+        case WEST: return NORTH;
+    }
+    return d;
+}
+
 Action KnowledgeBase::action_toward(std::pair<int, int> target) const
 {
+    //check if target is east
     if (target.first > believed_location.first)
     {
-        if (believed_direction == "North") return Action::TURN_RIGHT;
-        else if (believed_direction == "South") return Action::TURN_LEFT;
-        else if (believed_direction == "West") return Action::TURN_LEFT;
-        else if (believed_direction == "East") return Action::MOVE_FORWARD;
+        if (believed_direction == 0) return Action::TURN_RIGHT;
+        else if (believed_direction == 2) return Action::TURN_LEFT;
+        else if (believed_direction == 3) return Action::TURN_LEFT;
+        else if (believed_direction == 1) return Action::MOVE_FORWARD;
     }
+    //check if the target is west
     else if (target.first < believed_location.first)
     {
-        if (believed_direction == "North") return Action::TURN_LEFT;
-        else if (believed_direction == "South") return Action::TURN_RIGHT;
-        else if (believed_direction == "West") return Action::MOVE_FORWARD;
-        else if (believed_direction == "East") return Action::TURN_RIGHT;
+        if (believed_direction == 0) return Action::TURN_LEFT;
+        else if (believed_direction == 2) return Action::TURN_RIGHT;
+        else if (believed_direction == 3) return Action::MOVE_FORWARD;
+        else if (believed_direction == 1) return Action::TURN_RIGHT;
     }
+    //check if the target is north
     else if (target.second > believed_location.second)
     {
-        if (believed_direction == "North") return Action::MOVE_FORWARD;
-        else if (believed_direction == "South") return Action::TURN_RIGHT;
-        else if (believed_direction == "West") return Action::TURN_RIGHT;
-        else if (believed_direction == "East") return Action::TURN_LEFT;
+        if (believed_direction == 0) return Action::MOVE_FORWARD;
+        else if (believed_direction == 2) return Action::TURN_RIGHT;
+        else if (believed_direction == 3) return Action::TURN_RIGHT;
+        else if (believed_direction == 1) return Action::TURN_LEFT;
     }
+    //check if the target is south
     else if (target.second < believed_location.second)
     {
-        if (believed_direction == "North") return Action::TURN_RIGHT;
-        else if (believed_direction == "South") return Action::MOVE_FORWARD;
-        else if (believed_direction == "West") return Action::TURN_LEFT;
-        else if (believed_direction == "East") return Action::TURN_RIGHT;
+        if (believed_direction == 0) return Action::TURN_RIGHT;
+        else if (believed_direction == 2) return Action::MOVE_FORWARD;
+        else if (believed_direction == 3) return Action::TURN_LEFT;
+        else if (believed_direction == 1) return Action::TURN_RIGHT;
     }
 
     // target == believed_location — already there, nothing meaningful to return

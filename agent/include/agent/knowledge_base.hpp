@@ -1,19 +1,11 @@
 #pragma once
 #include"wumpus_world.hpp"
+#include"types.hpp"
 #include<functional>
 #include<set>
 #include<map>
 
 namespace wumpus {
-
-enum class Action {
-    TURN_LEFT,
-    TURN_RIGHT,
-    MOVE_FORWARD,
-    SHOOT,
-    GRAB,
-    CLIMB
-};
 
 class KnowledgeBase {
 public:
@@ -23,9 +15,10 @@ public:
     Action ask(const WumpusWorld& world);
 
 private:
+    Direction turn_left(const Direction d)const;
+    Direction turn_right(const Direction d)const;
     std::pair<int,int> believed_location = {1, 1};
-    std::string believed_direction = "East";
-
+    Direction believed_direction = Direction::EAST; // 0: North, 1: East, 2: South, 3: West
     std::set<std::pair<int,int>> visited;
     std::map<std::pair<int,int>, WumpusWorld::PerceptResult> known_percepts;
     std::set<std::pair<int,int>> known_safe;
