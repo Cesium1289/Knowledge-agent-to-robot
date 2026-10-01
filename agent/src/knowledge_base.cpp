@@ -26,7 +26,7 @@ void KnowledgeBase::tell(const WumpusWorld &world)
 
             //check if the adjacent square is within the bounds of the world
             if (nx >= 1 && nx <= 4 && ny >= 1 && ny <= 4)
-                known_safe.insert(std::make_pair(nx, ny));
+                known_safe.emplace(nx, ny);
         }
     }
 }
