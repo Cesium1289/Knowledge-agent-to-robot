@@ -6,10 +6,10 @@
 */
 TEST_CASE("Default constructor success", "[WumpusWorld]") {
     REQUIRE_NOTHROW(wumpus::WumpusWorld());
-}
+}   
 TEST_CASE("Arg constructor success", "[WumpusWorld]") {
     REQUIRE_NOTHROW(wumpus::WumpusWorld( std::make_pair(1, 1),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 2),
     std::make_pair(4, 4),
    {std::make_pair(3, 3)}));
@@ -18,7 +18,7 @@ TEST_CASE("Arg constructor success", "[WumpusWorld]") {
 TEST_CASE("Initialize wumpusworld", "[WumpusWorld]") {
     wumpus::WumpusWorld world(
         std::make_pair(1, 1),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(1, 2),   // wumpus adjacent to agent
         std::make_pair(4, 4),
         {std::make_pair(3, 3)}
@@ -35,16 +35,16 @@ TEST_CASE("Initialize wumpusworld", "[WumpusWorld]") {
 */
 TEST_CASE("agent direction success", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(1, 1),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 2),
     std::make_pair(4, 4),
    {std::make_pair(3, 3)});
-   REQUIRE(world.get_agent_direction() == "East");
+   REQUIRE(world.get_agent_direction() == wumpus::Direction::EAST);
 }
 
 TEST_CASE("agent is alive success", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(1, 1),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 2),
     std::make_pair(4, 4),
    {std::make_pair(3, 3)});
@@ -53,7 +53,7 @@ TEST_CASE("agent is alive success", "[WumpusWorld]") {
 
 TEST_CASE("wumpus is alive success", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(1, 1),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 2),
     std::make_pair(4, 4),
    {std::make_pair(3, 3)});
@@ -63,7 +63,7 @@ TEST_CASE("wumpus is alive success", "[WumpusWorld]") {
 
 TEST_CASE("Percept scream when wumpus is dead", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(1, 1),
-        "East", true, false,  
+       wumpus::Direction::EAST, true, false,  
         std::make_pair(4, 4),
         std::make_pair(2, 2),
         {std::make_pair(3, 3)});
@@ -77,7 +77,7 @@ TEST_CASE("Percept scream when wumpus is dead", "[WumpusWorld]") {
 
 TEST_CASE("Percept no stench", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),   // wumpus far away
         std::make_pair(1, 1),
         {std::make_pair(3, 3)});
@@ -86,7 +86,7 @@ TEST_CASE("Percept no stench", "[WumpusWorld]") {
 }
 TEST_CASE("Percept stench north", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(2, 3), //wumpus location
     std::make_pair(4, 4),
    {std::make_pair(3, 3)});
@@ -96,7 +96,7 @@ TEST_CASE("Percept stench north", "[WumpusWorld]") {
 
 TEST_CASE("Percept stench south", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(2, 1), //wumpus location
     std::make_pair(4, 4),
    {std::make_pair(3, 3)});
@@ -106,7 +106,7 @@ TEST_CASE("Percept stench south", "[WumpusWorld]") {
 
 TEST_CASE("Percept stench east", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(3, 2), //wumpus location
     std::make_pair(4, 4),
    {std::make_pair(3, 3)});
@@ -116,7 +116,7 @@ TEST_CASE("Percept stench east", "[WumpusWorld]") {
 
 TEST_CASE("Percept stench west", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 2), //wumpus location
     std::make_pair(4, 4),
    {std::make_pair(3, 3)});
@@ -127,7 +127,7 @@ TEST_CASE("Percept stench west", "[WumpusWorld]") {
 
 TEST_CASE("Percept breeze north", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 3), 
     std::make_pair(4, 4),
    {std::make_pair(2, 3)}); //pit location
@@ -137,7 +137,7 @@ TEST_CASE("Percept breeze north", "[WumpusWorld]") {
 
 TEST_CASE("Percept breeze south", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 3), 
     std::make_pair(4, 4),
    {std::make_pair(2, 1)}); //pit location
@@ -147,7 +147,7 @@ TEST_CASE("Percept breeze south", "[WumpusWorld]") {
 
 TEST_CASE("Percept breeze east", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 3), 
     std::make_pair(4, 4),
    {std::make_pair(3, 2)}); //pit location
@@ -157,7 +157,7 @@ TEST_CASE("Percept breeze east", "[WumpusWorld]") {
 
 TEST_CASE("Percept breeze west", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 3), //wumpus location
     std::make_pair(4, 4),
    {std::make_pair(1, 2)});// pit location
@@ -167,7 +167,7 @@ TEST_CASE("Percept breeze west", "[WumpusWorld]") {
 
 TEST_CASE("Percept no breeze", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 3), 
     std::make_pair(4, 4),
    {std::make_pair(3, 3)});// pit location
@@ -177,7 +177,7 @@ TEST_CASE("Percept no breeze", "[WumpusWorld]") {
 
 TEST_CASE("Percept breeze from multiple adjacent pits", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(1, 1),
         {std::make_pair(2, 3), std::make_pair(2, 1)});  // two pits, both adjacent
@@ -187,7 +187,7 @@ TEST_CASE("Percept breeze from multiple adjacent pits", "[WumpusWorld]") {
 
 TEST_CASE("Percept glitter", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 3), 
     std::make_pair(2, 2),
    {std::make_pair(1, 2)});
@@ -197,7 +197,7 @@ TEST_CASE("Percept glitter", "[WumpusWorld]") {
 
 TEST_CASE("Percept no glitter", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 3), 
     std::make_pair(3, 2),
    {std::make_pair(1, 2)});
@@ -210,7 +210,7 @@ TEST_CASE("Percept no glitter", "[WumpusWorld]") {
 */
 TEST_CASE("agenet facing North in center and not bump into wall", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "North", true, true,
+    wumpus::Direction::NORTH, true, true,
     std::make_pair(1, 3), 
     std::make_pair(3, 2),
    {std::make_pair(1, 2)});
@@ -220,7 +220,7 @@ TEST_CASE("agenet facing North in center and not bump into wall", "[WumpusWorld]
 
 TEST_CASE("agenet facing East in center and not bump into wall", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "East", true, true,
+    wumpus::Direction::EAST, true, true,
     std::make_pair(1, 3), 
     std::make_pair(3, 2),
    {std::make_pair(1, 2)});
@@ -230,7 +230,7 @@ TEST_CASE("agenet facing East in center and not bump into wall", "[WumpusWorld]"
 
 TEST_CASE("agenet facing South in center and not bump into wall", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "South", true, true,
+    wumpus::Direction::SOUTH, true, true,
     std::make_pair(1, 3), 
     std::make_pair(3, 2),
    {std::make_pair(1, 2)});
@@ -240,7 +240,7 @@ TEST_CASE("agenet facing South in center and not bump into wall", "[WumpusWorld]
 
 TEST_CASE("agenet facing West in center and not bump into wall", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld( std::make_pair(2, 2),
-    "West", true, true,
+    wumpus::Direction::WEST, true, true,
     std::make_pair(1, 3), 
     std::make_pair(3, 2),
    {std::make_pair(1, 2)});
@@ -250,14 +250,14 @@ TEST_CASE("agenet facing West in center and not bump into wall", "[WumpusWorld]"
 
 TEST_CASE("Agent bumps wall at (1,4) facing West or North", "[WumpusWorld]") {
     auto world_west = wumpus::WumpusWorld(std::make_pair(1, 4),
-        "West", true, true,
+        wumpus::Direction::WEST, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     REQUIRE(world_west.percept().bump == true);
 
     auto world_north = wumpus::WumpusWorld(std::make_pair(1, 4),
-        "North", true, true,
+        wumpus::Direction::NORTH, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
@@ -266,14 +266,14 @@ TEST_CASE("Agent bumps wall at (1,4) facing West or North", "[WumpusWorld]") {
 
 TEST_CASE("Agent bumps wall at (4,1) facing East or South", "[WumpusWorld]") {
     auto world_east = wumpus::WumpusWorld(std::make_pair(4, 1),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     REQUIRE(world_east.percept().bump == true);
 
     auto world_south = wumpus::WumpusWorld(std::make_pair(4, 1),
-        "South", true, true,
+        wumpus::Direction::SOUTH, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
@@ -282,14 +282,14 @@ TEST_CASE("Agent bumps wall at (4,1) facing East or South", "[WumpusWorld]") {
 
 TEST_CASE("Agent bumps wall at (4,4) facing East or North", "[WumpusWorld]") {
     auto world_east = wumpus::WumpusWorld(std::make_pair(4, 4),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     REQUIRE(world_east.percept().bump == true);
 
     auto world_north = wumpus::WumpusWorld(std::make_pair(4, 4),
-        "North", true, true,
+        wumpus::Direction::NORTH, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
@@ -298,14 +298,14 @@ TEST_CASE("Agent bumps wall at (4,4) facing East or North", "[WumpusWorld]") {
 
 TEST_CASE("Agent bumps wall at (1,1) facing West or South", "[WumpusWorld]") {
     auto world_west = wumpus::WumpusWorld(std::make_pair(1, 1),
-        "West", true, true,
+        wumpus::Direction::WEST, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     REQUIRE(world_west.percept().bump == true);
 
     auto world_south = wumpus::WumpusWorld(std::make_pair(1, 1),
-        "South", true, true,
+        wumpus::Direction::SOUTH, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
@@ -317,82 +317,82 @@ TEST_CASE("Agent bumps wall at (1,1) facing West or South", "[WumpusWorld]") {
 */
 TEST_CASE("Turning left from North faces West", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "North", true, true,
+        wumpus::Direction::NORTH, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     world.turned_left();
-    REQUIRE(world.get_agent_direction() == "West");
+    REQUIRE(world.get_agent_direction() == wumpus::Direction::WEST);
 }
 
 TEST_CASE("Turning left from West faces South", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "West", true, true,
+        wumpus::Direction::WEST, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     world.turned_left();
-    REQUIRE(world.get_agent_direction() == "South");
+    REQUIRE(world.get_agent_direction() == wumpus::Direction::SOUTH);
 }
 
 TEST_CASE("Turning left from South faces East", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "South", true, true,
+        wumpus::Direction::SOUTH, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     world.turned_left();
-    REQUIRE(world.get_agent_direction() == "East");
+    REQUIRE(world.get_agent_direction() == wumpus::Direction::EAST);
 }
 
 TEST_CASE("Turning left from East faces North", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     world.turned_left();
-    REQUIRE(world.get_agent_direction() == "North");
+    REQUIRE(world.get_agent_direction() == wumpus::Direction::NORTH);
 }
 
 TEST_CASE("Turning right from North faces East", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "North", true, true,
+        wumpus::Direction::NORTH, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     world.turned_right();
-    REQUIRE(world.get_agent_direction() == "East");
+    REQUIRE(world.get_agent_direction() == wumpus::Direction::EAST);
 }
 
 TEST_CASE("Turning right from East faces South", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     world.turned_right();
-    REQUIRE(world.get_agent_direction() == "South");
+    REQUIRE(world.get_agent_direction() == wumpus::Direction::SOUTH);
 }
 
 TEST_CASE("Turning right from South faces West", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "South", true, true,
+        wumpus::Direction::SOUTH, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     world.turned_right();
-    REQUIRE(world.get_agent_direction() == "West");
+    REQUIRE(world.get_agent_direction() == wumpus::Direction::WEST);
 }
 
 TEST_CASE("Turning right from West faces North", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "West", true, true,
+        wumpus::Direction::WEST, true, true,
         std::make_pair(1, 3),
         std::make_pair(3, 2),
         {std::make_pair(1, 2)});
     world.turned_right();
-    REQUIRE(world.get_agent_direction() == "North");
+    REQUIRE(world.get_agent_direction() == wumpus::Direction::NORTH);
 }
 
 /*
@@ -400,7 +400,7 @@ TEST_CASE("Turning right from West faces North", "[WumpusWorld]") {
 */
 TEST_CASE("Move forward East succeeds", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(1, 4),
         std::make_pair(3, 2),   // gold at destination
         {std::make_pair(1, 1)});
@@ -410,7 +410,7 @@ TEST_CASE("Move forward East succeeds", "[WumpusWorld]") {
 
 TEST_CASE("Move forward West succeeds", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(3, 2),
-        "West", true, true,
+        wumpus::Direction::WEST, true, true,
         std::make_pair(1, 4),
         std::make_pair(2, 2),   // gold at destination
         {std::make_pair(1, 1)});
@@ -420,7 +420,7 @@ TEST_CASE("Move forward West succeeds", "[WumpusWorld]") {
 
 TEST_CASE("Move forward North succeeds", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "North", true, true,
+        wumpus::Direction::NORTH, true, true,
         std::make_pair(1, 4),
         std::make_pair(2, 3),   // gold at destination
         {std::make_pair(1, 1)});
@@ -430,7 +430,7 @@ TEST_CASE("Move forward North succeeds", "[WumpusWorld]") {
 
 TEST_CASE("Move forward South succeeds", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 3),
-        "South", true, true,
+        wumpus::Direction::SOUTH, true, true,
         std::make_pair(1, 4),
         std::make_pair(2, 2),   // gold at destination
         {std::make_pair(1, 1)});
@@ -440,7 +440,7 @@ TEST_CASE("Move forward South succeeds", "[WumpusWorld]") {
 
 TEST_CASE("Move forward blocked by wall does not move agent", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(4, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(1, 4),
         std::make_pair(4, 2),   // gold at agent's own square
         {std::make_pair(1, 1)});
@@ -451,7 +451,7 @@ TEST_CASE("Move forward blocked by wall does not move agent", "[WumpusWorld]") {
 
 TEST_CASE("Moving into a pit kills the agent", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(1, 4),
         std::make_pair(1, 1),
         {std::make_pair(3, 2)});   // pit at destination
@@ -461,7 +461,7 @@ TEST_CASE("Moving into a pit kills the agent", "[WumpusWorld]") {
 
 TEST_CASE("Moving into a living wumpus kills the agent", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(3, 2),   // wumpus at destination
         std::make_pair(1, 1),
         {std::make_pair(4, 4)});
@@ -471,7 +471,7 @@ TEST_CASE("Moving into a living wumpus kills the agent", "[WumpusWorld]") {
 
 TEST_CASE("Moving into a dead wumpus does not kill the agent", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, false,   // wumpus_alive = false
+        wumpus::Direction::EAST, true, false,   // wumpus_alive = false
         std::make_pair(3, 2),  // wumpus at destination
         std::make_pair(1, 1),
         {std::make_pair(4, 4)});
@@ -484,7 +484,7 @@ TEST_CASE("Moving into a dead wumpus does not kill the agent", "[WumpusWorld]") 
 */
 TEST_CASE("Grabbed succeeds when standing on gold", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(2, 2),   // gold at agent's location
         {std::make_pair(1, 1)});
@@ -496,7 +496,7 @@ TEST_CASE("Grabbed succeeds when standing on gold", "[WumpusWorld]") {
 
 TEST_CASE("Grabbing gold removes glitter from percept", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(2, 2),   // gold at agent's location
         {std::make_pair(1, 1)});
@@ -510,7 +510,7 @@ TEST_CASE("Grabbing gold removes glitter from percept", "[WumpusWorld]") {
 
 TEST_CASE("Grabbed does nothing when not standing on gold", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(3, 3),   // gold elsewhere
         {std::make_pair(1, 1)});
@@ -522,7 +522,7 @@ TEST_CASE("Grabbed does nothing when not standing on gold", "[WumpusWorld]") {
 
 TEST_CASE("Grabbing twice is harmless", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(2, 2),   // gold at agent's location
         {std::make_pair(1, 1)});
@@ -538,7 +538,7 @@ TEST_CASE("Grabbing twice is harmless", "[WumpusWorld]") {
 */
 TEST_CASE("Climbing out succeeds at exit location", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(1, 1),   // at the exit
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(2, 2),
         {std::make_pair(3, 3)});
@@ -550,7 +550,7 @@ TEST_CASE("Climbing out succeeds at exit location", "[WumpusWorld]") {
 
 TEST_CASE("Climbing does nothing away from exit location", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),   // not at the exit
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(3, 3),
         {std::make_pair(1, 4)});
@@ -562,7 +562,7 @@ TEST_CASE("Climbing does nothing away from exit location", "[WumpusWorld]") {
 
 TEST_CASE("Agent can climb out with the gold", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(1, 1),   // at the exit
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(1, 1),   // gold at the exit square
         {std::make_pair(3, 3)});
@@ -576,7 +576,7 @@ TEST_CASE("Agent can climb out with the gold", "[WumpusWorld]") {
 
 TEST_CASE("Agent can climb out without the gold", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(1, 1),   // at the exit
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(4, 4),
         std::make_pair(3, 3),   // gold elsewhere
         {std::make_pair(2, 2)});
@@ -592,7 +592,7 @@ TEST_CASE("Agent can climb out without the gold", "[WumpusWorld]") {
 */
 TEST_CASE("Shooting north kills wumpus directly north", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "North", true, true,
+        wumpus::Direction::NORTH, true, true,
         std::make_pair(2, 3),   // wumpus directly north
         std::make_pair(4, 4),
         {std::make_pair(1, 1)});
@@ -604,7 +604,7 @@ TEST_CASE("Shooting north kills wumpus directly north", "[WumpusWorld]") {
 
 TEST_CASE("Shooting south kills wumpus directly south", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "South", true, true,
+        wumpus::Direction::SOUTH, true, true,
         std::make_pair(2, 1),   // wumpus directly south
         std::make_pair(4, 4),
         {std::make_pair(1, 4)});
@@ -616,7 +616,7 @@ TEST_CASE("Shooting south kills wumpus directly south", "[WumpusWorld]") {
 
 TEST_CASE("Shooting east kills wumpus directly east", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(3, 2),   // wumpus directly east
         std::make_pair(4, 4),
         {std::make_pair(1, 1)});
@@ -628,7 +628,7 @@ TEST_CASE("Shooting east kills wumpus directly east", "[WumpusWorld]") {
 
 TEST_CASE("Shooting west kills wumpus directly west", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "West", true, true,
+        wumpus::Direction::WEST, true, true,
         std::make_pair(1, 2),   // wumpus directly west
         std::make_pair(4, 4),
         {std::make_pair(1, 4)});
@@ -640,7 +640,7 @@ TEST_CASE("Shooting west kills wumpus directly west", "[WumpusWorld]") {
 
 TEST_CASE("Shooting the wrong direction misses the wumpus", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(2, 2),
-        "North", true, true,
+        wumpus::Direction::NORTH, true, true,
         std::make_pair(3, 2),   // wumpus is east, agent faces north
         std::make_pair(4, 4),
         {std::make_pair(1, 1)});
@@ -652,7 +652,7 @@ TEST_CASE("Shooting the wrong direction misses the wumpus", "[WumpusWorld]") {
 
 TEST_CASE("Shooting when wumpus is not in line does not kill it", "[WumpusWorld]") {
     auto world = wumpus::WumpusWorld(std::make_pair(1, 1),
-        "North", true, true,
+        wumpus::Direction::NORTH, true, true,
         std::make_pair(3, 3),   // wumpus off-axis entirely
         std::make_pair(4, 4),
         {std::make_pair(2, 2)});

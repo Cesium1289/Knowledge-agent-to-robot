@@ -1,4 +1,5 @@
 #pragma once
+#include "types.hpp"
 #include <utility> 
 #include <vector>
 #include <string>
@@ -21,7 +22,7 @@ static const std::pair<int,int> EXIT_LOCATION;
 
     WumpusWorld(
         std::pair<int,int> agent_location = std::make_pair(1,1),
-        std::string agent_direction = "East",
+        Direction agent_direction = Direction::EAST,
         bool agent_alive = true,
         bool wumpus_alive = true,
         std::pair<int,int> wumpus_location =std::make_pair(3,3), 
@@ -36,7 +37,7 @@ static const std::pair<int,int> EXIT_LOCATION;
     void grabbed();
     void climbed();
     void shot();
-    std::string get_agent_direction()const;
+    Direction get_agent_direction()const;
     bool get_agent_is_alive()const;
     bool get_agent_has_gold()const;
     bool get_has_climbed_out()const;
@@ -44,7 +45,7 @@ static const std::pair<int,int> EXIT_LOCATION;
     
 private:    
     std::pair<int,int> agent_location;
-    std::string agent_direction;
+    Direction agent_direction;
     bool agent_alive;
     bool wumpus_alive;
     std::pair<int,int> wumpus_location;

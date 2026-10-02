@@ -4,7 +4,7 @@ namespace wumpus {
 
 const std::pair<int,int> WumpusWorld::EXIT_LOCATION = std::make_pair(1, 1);
 
-WumpusWorld::WumpusWorld(std::pair<int, int> agent_Location, std::string agent_direction, bool agent_alive, bool wumpus_alive, std::pair<int, int> wumpus_location, std::pair<int, int> gold_location, std::vector<std::pair<int, int>> pit_locations)
+WumpusWorld::WumpusWorld(std::pair<int, int> agent_Location, Direction agent_direction, bool agent_alive, bool wumpus_alive, std::pair<int, int> wumpus_location, std::pair<int, int> gold_location, std::vector<std::pair<int, int>> pit_locations)
 {
     this->agent_location = agent_Location;
     this->agent_direction = agent_direction;
@@ -49,29 +49,41 @@ WumpusWorld::PerceptResult WumpusWorld::percept()const
 }
 void WumpusWorld::turned_left()
 {
-    if (agent_direction == "North") agent_direction = "West";
-    else if (agent_direction == "West") agent_direction = "South";
-    else if (agent_direction == "South") agent_direction = "East";
-    else if (agent_direction == "East") agent_direction = "North";
+    switch(agent_direction)
+    {
+        case NORTH: agent_direction = WEST;
+            break;  
+        case WEST: agent_direction = SOUTH;
+            break;
+        case SOUTH: agent_direction = EAST;
+            break;
+        case EAST: agent_direction = NORTH;
+    }
 }
 void WumpusWorld::turned_right()
 {
-    if (agent_direction == "North") agent_direction = "East";
-    else if (agent_direction == "West") agent_direction = "North";
-    else if (agent_direction == "South") agent_direction = "West";
-    else if (agent_direction == "East") agent_direction = "South";
+     switch(agent_direction)
+    {
+        case NORTH: agent_direction = EAST;
+            break;  
+        case WEST: agent_direction = NORTH;
+            break;
+        case SOUTH: agent_direction = WEST;
+            break;
+        case EAST: agent_direction = SOUTH;
+    }
 }
 
 void WumpusWorld::move_forward()
 {
     // check if and where the agent should move
-    if (agent_direction == "North" && agent_can_move_north())
+    if (agent_direction == Direction::NORTH && agent_can_move_north())
         agent_location.second++;
-    else if (agent_direction == "South" && agent_can_move_south())
+    else if (agent_direction ==  Direction::SOUTH && agent_can_move_south())
         agent_location.second--;
-    else if (agent_direction == "East" && agent_can_move_east())
+    else if (agent_direction ==  Direction::EAST && agent_can_move_east())
         agent_location.first++;
-    else if (agent_direction == "West" && agent_can_move_west())
+    else if (agent_direction ==  Direction::WEST && agent_can_move_west())
         agent_location.first--;
 
     // check if agent is in a pit
@@ -107,13 +119,13 @@ void WumpusWorld::shot()
     //no longer be alive.
         
         //check agent direction and if the wumpus is in the same direction
-        if (agent_direction == "North" && wumpus_north_of_agent())
+        if (agent_direction == Direction::NORTH && wumpus_north_of_agent())
             wumpus_alive = false;
-        else if(agent_direction == "South" && wumpus_south_of_agent())
+        else if(agent_direction == Direction::SOUTH && wumpus_south_of_agent())
             wumpus_alive = false;
-        else if(agent_direction == "West" && wumpus_west_of_agent())
+        else if(agent_direction ==  Direction::WEST && wumpus_west_of_agent())
             wumpus_alive = false;
-        else if (agent_direction == "East" && wumpus_east_of_agent())
+        else if (agent_direction ==  Direction::EAST && wumpus_east_of_agent())
             wumpus_alive = false;
 }
 
@@ -143,19 +155,19 @@ bool WumpusWorld::agent_bumped_wall()const
     //Did the agent bump into a wall? (Or, is the agent facing a wall?)
 
         //check west
-        if(!agent_can_move_west() && agent_direction == "West")
+        if(!agent_can_move_west() && agent_direction ==  Direction::WEST)
             return true;
         
         //check east
-        if(!agent_can_move_east() && agent_direction == "East")
+        if(!agent_can_move_east() && agent_direction ==  Direction::EAST)
             return true;
         
         //check north
-        if(!agent_can_move_north() && agent_direction == "North")
+        if(!agent_can_move_north() && agent_direction ==  Direction::NORTH)
             return true;
         
         //check south
-        if(!agent_can_move_south() && agent_direction == "South")
+        if(!agent_can_move_south() && agent_direction ==  Direction::SOUTH)
             return true;
         
         return false;
@@ -180,7 +192,7 @@ bool WumpusWorld::wumpus_south_of_agent()const
     //Is the wumpus somewhere to the south of the agent?
     return agent_location.first == wumpus_location.first && agent_location.second > wumpus_location.second;
 }
-std::string WumpusWorld::get_agent_direction() const
+Direction WumpusWorld::get_agent_direction() const
 {
     return agent_direction;
 }

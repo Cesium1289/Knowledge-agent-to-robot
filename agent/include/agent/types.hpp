@@ -3,7 +3,7 @@
 
 namespace wumpus{
 
- enum class Action{
+enum class Action{
     TURN_LEFT,
     TURN_RIGHT,
     MOVE_FORWARD,

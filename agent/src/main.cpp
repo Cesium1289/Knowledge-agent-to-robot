@@ -3,9 +3,6 @@
 #include "agent/wumpus_world.hpp"
 #include "agent/knowledge_base.hpp"
 #include "agent/wumpus_world_agent.hpp"
-// Demonstration entry point for the Wumpus World agent.
-// TODO: instantiate WumpusWorld, KnowledgeBase, and WumpusWorldAgent here,
-// then run the agent loop, once those classes are implemented.
 
 std::string action_to_string(wumpus::Action action)
 {
@@ -25,7 +22,7 @@ int main()
 {
     wumpus::WumpusWorld world(
         std::make_pair(1, 1),
-        "East", true, true,
+        wumpus::Direction::EAST, true, true,
         std::make_pair(3, 3),
         std::make_pair(2, 2),
         {std::make_pair(4, 2), std::make_pair(2, 3), std::make_pair(4, 4)}
